@@ -1,0 +1,6 @@
+{
+  "name": "Fresh Drink Admin - Smart RO System",
+  "description": "แอปพลิเคชันระบบจัดการและดูแลเครื่องกรองน้ำ Fresh Drink Smart RO Water System สำหรับผู้ดูแลระบบ (Admin)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

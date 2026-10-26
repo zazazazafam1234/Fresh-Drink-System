@@ -1,0 +1,6 @@
+{
+  "name": "Fresh Drink",
+  "description": "Fresh Drink ระบบจ่ายน้ำดื่มอัจฉริยะ (Smart RO Water System) แอปพลิเคชันติดตามคุณภาพน้ำ ประวัติการใช้งาน และสั่งจ่ายน้ำอัจฉริยะ",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
