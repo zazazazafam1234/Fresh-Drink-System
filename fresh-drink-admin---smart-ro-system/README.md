@@ -2,6 +2,28 @@
 
 Both sites use the same Express API and XAMPP MySQL/MariaDB database (`fresh_drink`). Import `database/schema.sql` in phpMyAdmin when first setting up; it creates the admin tables and user dispense request tables without adding demo machines or activity. Database connection settings are in `.env.example`.
 
+## Run all apps with PM2
+
+Start MySQL in XAMPP and import `database/schema.sql` if the database is new. Install PM2 once with `npm install -g pm2`. Copy each project's `.env.example` to `.env`, then configure the backend database, Google OAuth, `SESSION_SECRET`, and admin allowlist; set `VITE_GOOGLE_CLIENT_ID` in both frontend projects.
+
+From the workspace root, install dependencies and build the three apps:
+
+```powershell
+npm --prefix "fresh-drink-admin---smart-ro-system" ci
+npm --prefix "fresh-drink-admin---smart-ro-system/fresh-drink-(user-app)" ci
+npm --prefix "fresh-drink" ci
+npm --prefix "fresh-drink-admin---smart-ro-system" run build
+npm --prefix "fresh-drink-admin---smart-ro-system/fresh-drink-(user-app)" run build
+npm --prefix "fresh-drink" run build
+pm2 start ecosystem.config.cjs
+```
+
+- Admin: `http://localhost:3001`
+- Admin User App: `http://localhost:3001/user/`
+- Fresh Drink app: `http://localhost:3003`
+
+Use `pm2 status`, `pm2 logs`, and `pm2 restart ecosystem.config.cjs` to manage the processes. The PM2 config runs the shared API (which serves Admin and the integrated User App) and the built Fresh Drink UI. Configure the three URLs above as authorized JavaScript origins in Google Cloud Console, and keep `http://localhost:3001/api/auth/google/callback` as the authorized redirect URI.
+
 ## Google sign-in and Gmail
 
 Copy `.env.example` to `.env`. Set `googleId`, `googleSecret`, and `callbackURL` from your Google OAuth web client. Keep `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_CALLBACK_URL`, and `VITE_GOOGLE_CLIENT_ID` in sync if you use the compatibility aliases. Set a long random `SESSION_SECRET`, and add Admin account addresses to `ADMIN_EMAILS` (comma-separated). Add authorized JavaScript origins `http://localhost:3000`, `http://localhost:3001`, `http://localhost:3002`, and `http://localhost:3003` in Google Cloud Console, and add `http://localhost:3001/api/auth/google/callback` as an authorized redirect URI. Admin access is limited to the allowlist; other verified Google accounts receive the User role. Accounts are stored in `app_users`.
